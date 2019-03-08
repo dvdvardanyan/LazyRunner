@@ -1,0 +1,8 @@
+{
+    "runtimeConfiguration": {
+        "logFileDirectory": "%%SCRIPT_RELATIVE%%\\log",
+        "assemblies":[
+            { "key": "path", "value": "%%SCRIPT_RELATIVE%%\\assemblies\\CsvDataImport.dll" }
+        ]
+    }
+}
