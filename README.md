@@ -1,5 +1,7 @@
 # LazyRunner
 
+A powershell script to perform administrative operations such as setting up folders, moving folders, etc.
+
 ## Configuration options
 
 #### Assemblies
