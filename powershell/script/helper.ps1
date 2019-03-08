@@ -18,24 +18,6 @@ function Get-Path {
     return $path;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function Get-RandomString {
     
     [OutputType([string])]
@@ -69,6 +51,69 @@ function Get-TextBetween {
     # Retrun values
     return $values;
 }
+
+function Replace-Date {
+
+    [OutputType([string])]
+
+    Param
+    (
+        [Parameter(Mandatory=$true, Position=0)][string]$data,
+        [Parameter(Mandatory=$false, Position=1)][string]$dateFormat
+    )
+
+    if($data -eq "") {
+        return $data;
+    }
+
+    if($data -like "*%%CURRENTDATE%%*") {
+        if($dateFormat -eq $null -or $dateFormat -eq "") { $dateFormat = "yyyyMMdd"; }
+        $data = $data.Replace("%%CURRENTDATE%%", (Get-Date -Format $dateFormat).ToString());
+    }
+    
+    if($data -like "*%%CURRENTTIME%%*") {
+        if($dateFormat -eq $null -or $dateFormat -eq "") { $dateFormat = "hhmmss"; }
+        $data = $data.Replace("%%CURRENTTIME%%", (Get-Date -Format $dateFormat).ToString());
+    }
+    
+    if($data -like "*%%CURRENTDATETIME%%*") {
+        if($dateFormat -eq $null -or $dateFormat -eq "") { $dateFormat = "yyyyMMddhhmmss"; }
+        $data = $data.Replace("%%CURRENTDATETIME%%", (Get-Date -Format $dateFormat).ToString());
+    }
+
+    if($data -like "*%%YESTERDAY%%*") {
+        if($dateFormat -eq $null -or $dateFormat -eq "") { $dateFormat = "yyyyMMdd"; }
+        $data = $data.Replace("%%YESTERDAY%%", (Get-Date (Get-Date).AddDays(-1) -Format $dateFormat).ToString());
+    }
+
+    return $data;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function Replace-Server {
 
@@ -131,42 +176,7 @@ function Replace-Special {
     return $data;
 }
 
-function Replace-Date {
 
-    [OutputType([string])]
-
-    Param
-    (
-        [Parameter(Mandatory=$true, Position=0)][string]$data,
-        [Parameter(Mandatory=$false, Position=1)][string]$dateFormat
-    )
-
-    if($data -eq "") {
-        return $data;
-    }
-
-    if($data -like "*%%CURRENTDATE%%*") {
-        if($dateFormat -eq $null -or $dateFormat -eq "") { $dateFormat = "yyyyMMdd"; }
-        $data = $data.Replace("%%CURRENTDATE%%", (Get-Date -Format $dateFormat).ToString());
-    }
-    
-    if($data -like "*%%CURRENTTIME%%*") {
-        if($dateFormat -eq $null -or $dateFormat -eq "") { $dateFormat = "hhmmss"; }
-        $data = $data.Replace("%%CURRENTTIME%%", (Get-Date -Format $dateFormat).ToString());
-    }
-    
-    if($data -like "*%%CURRENTDATETIME%%*") {
-        if($dateFormat -eq $null -or $dateFormat -eq "") { $dateFormat = "yyyyMMddhhmmss"; }
-        $data = $data.Replace("%%CURRENTDATETIME%%", (Get-Date -Format $dateFormat).ToString());
-    }
-
-    if($data -like "*%%YESTERDAY%%*") {
-        if($dateFormat -eq $null -or $dateFormat -eq "") { $dateFormat = "yyyyMMdd"; }
-        $data = $data.Replace("%%YESTERDAY%%", (Get-Date (Get-Date).AddDays(-1) -Format $dateFormat).ToString());
-    }
-
-    return $data;
-}
 
 function Replace-Path {
 

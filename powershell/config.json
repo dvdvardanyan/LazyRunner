@@ -1,8 +1,43 @@
 {
     "runtimeConfiguration": {
-        "logFileDirectory": "%%SCRIPT_RELATIVE%%\\log",
-        "assemblies":[
-            { "key": "path", "value": "%%SCRIPT_RELATIVE%%\\assemblies\\CsvDataImport.dll" }
-        ]
-    }
+        "log": {
+            "directory": "%%SCRIPT_RELATIVE%%\\log"
+        },
+        "assemblies":[]
+    },
+    "run": [
+        {
+            "type": "SetupFolderStructure",
+	        "actions": [
+		        {
+			        "root": "D:\\Test",
+			        "children": [
+				        {
+					        "name": "UploadedFiles",
+					        "children": [
+						        { "name": "Archived Files", "children": [] },
+                                { "name": "Archived Failed Files", "children": [] },
+                                { "name": "Failed Files", "children": [] },
+                                { "name": "Processing Files %%CURRENTDATE%%", "children": [] },
+                                { "name": "Folder to delete", "children": [] }
+					        ]
+				        }
+			        ]
+		        }
+	        ]
+        },{
+	        "type": "MoveFolders",
+	        "actions": [
+                {
+			        "action": "delete",
+			        "sourceFolder": "D:\\Test\\UploadedFiles\\Folder to delete"
+		        },{
+			        "action": "move",
+                    "replaceExisting": false,
+                    "sourceFolder": "D:\\Test\\UploadedFiles\\Failed Files",
+                    "destinationFolder": "D:\\Test\\UploadedFiles\\Archived Failed Files\\Failed Files %%CURRENTDATETIME%%"
+		        }
+	        ]
+        }
+    ]
 }

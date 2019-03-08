@@ -5,19 +5,20 @@ clear
 . "$($PSScriptRoot)\script\log.ps1";
 . "$($PSScriptRoot)\script\helper.ps1";
 . "$($PSScriptRoot)\script\assembly.ps1";
+. "$($PSScriptRoot)\script\folder.ps1";
+
+# Variable flag to write into log file
+[bool]$WriteLog = $false;
 
 try {
-
-    # Variable to write into log file
-    [bool]$WriteLog = $false;
 
     # Load configuration file
     $config = Load-Configuration ((Join-Path $PSScriptRoot "config.json"));
 
     # Setup log file
-    if($config.runtimeConfiguration.logFileDirectory -ne $null -and $config.runtimeConfiguration.logFileDirectory -ne "") {
+    if($config.runtimeConfiguration.log -ne $null -and (-Not([string]::IsNullOrWhiteSpace($config.runtimeConfiguration.log.directory)))) {
         $WriteLog = $true;
-        Init-Log (Get-Path($config.runtimeConfiguration.logFileDirectory));
+        Init-Log (Get-Path($config.runtimeConfiguration.log.directory));
     }
     
     # Loading assemblies
@@ -25,6 +26,30 @@ try {
         Load-Assemblies $config.runtimeConfiguration.assemblies;
     }
 
+    # Run actions
+    if($config.run -ne $null -and $config.run.Length -gt 0) {
+        foreach($item in $config.run) {
+            switch($item.type) {
+                
+                "SetupFolderStructure" {
+                    foreach($action in $item.actions) {
+                        Setup-FolderStructure $action;
+                    }
+                }
+
+                "MoveFolders" {
+                    foreach($setting in $item.actions) {
+                        Move-Folder $setting;
+                    }
+                }
+            }
+        }
+    }
 } catch {
+    
+    if($WriteLog) {
+        Log-Error ($_.Exception.Message);
+    }
+    
     Write-Host ($_.Exception.Message);
 }
