@@ -1,6 +1,6 @@
 # LazyRunner
 
-A powershell script to perform administrative operations such as setting up folders, moving folders, etc.
+A powershell script to perform simple administrative operations.
 
 ## Configuration options
 
@@ -19,28 +19,28 @@ For assemblies in DAC:
 
 ```
 {
-	"type": "SetupFolderStructure",
-	"actions": [
-		{
-			"root": "C:\\Test",
-			"children": [
-				{
-					"name": "My Files",
-					"children": [
-						{
-							"name": "New Files", "children": []
-						},{
-							"name": "Archived Files", "children": [
-								{ "name": "Archived on %%CURRENTDATE%%", "children": [] }
-							]
-						},{
-							"name": "Trash", "children": []
-						}
-					]
-				}
-			]
-		}
-	]
+  "type": "SetupFolderStructure",
+  "actions": [
+    {
+      "root": "C:\\Test",
+      "children": [
+        {
+          "name": "My Files",
+          "children": [
+            {
+              "name": "New Files", "children": []
+            },{
+              "name": "Archived Files", "children": [
+                { "name": "Archived on %%CURRENTDATE%%", "children": [] }
+              ]
+            },{
+              "name": "Trash", "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -48,19 +48,19 @@ For assemblies in DAC:
 
 ```
 {
-	"type": "MoveFolders",
-	"actions": [
-		{
-			"action": "delete",
-			"sourceFolder": "C:\\Test\\My Files\\Trash"
-		},
-		{
-			"action": "move",
-			"replaceExisting": false,
-			"sourceFolder": "C:\\Test\\My Files\\New Files",
-			"destinationFolder": "C:\\Test\\My Files\\Archived Files\\Archived on %%CURRENTDATETIME%%"
-		}
-	]
+  "type": "MoveFolders",
+  "actions": [
+    {
+      "action": "delete",
+      "sourceFolder": "C:\\Test\\My Files\\Trash"
+    },
+    {
+      "action": "move",
+      "replaceExisting": false,
+      "sourceFolder": "C:\\Test\\My Files\\New Files",
+      "destinationFolder": "C:\\Test\\My Files\\Archived Files\\Archived on %%CURRENTDATETIME%%"
+    }
+  ]
 }
 ```
 
