@@ -1,6 +1,6 @@
 # LazyRunner
 
-A powershell script to perform simple administrative operations.
+A powershell script to perform simple administrative operations based on configuration file.
 
 ## Configuration options
 
